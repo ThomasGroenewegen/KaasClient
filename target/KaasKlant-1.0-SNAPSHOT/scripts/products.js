@@ -34,9 +34,10 @@ function showAllProducts() {
 }
 
 function showOneProduct(product) {
-    
+
     $("#showOneProduct").html("");
     $("#showOneProduct").append("<button id='backToAllProducts'>Terug naar overzicht</button>");
+    $("#showOneProduct").append("<br/><br/><button id='deleteProduct'>Product verwijderen</button>");
     $("#showOneProduct").append("<ul>" +
             "<li>Id: " + product.id + "</li>" +
             "<li>Naam: " + product.name + "</li>" +
@@ -51,8 +52,27 @@ function showOneProduct(product) {
         $("#showOneProduct").hide(500);
         $("#productTable").show(500);
     });
+
+    $("#deleteProduct").click(function (event) {
+        deleteProduct(product);
+    });
 }
 
+function deleteProduct(product) {
+    var confirmation = confirm("Product verwijderen?");
+    if (confirmation) {
+        $.ajax({
+            method: "DELETE",
+            url: "http://localhost:8080/Workshop3/webresources/product/" + product.id,
+            error: function () {
+                alert("Dit product kon niet verwijderd worden");
+            },
+            success: function () {
+                window.location.href = "http://localhost:8080/KaasKlant/product.html";
+            }
+        });
+    } 
+}
 
 //$("#backToAllProducts").click(function (event) {
 //    
